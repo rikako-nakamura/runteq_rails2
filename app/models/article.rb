@@ -39,7 +39,7 @@ class Article < ApplicationRecord
 
   has_one_attached :eye_catch
 
-  enum state: { draft: 0, published: 1 , publish_wait: 2}
+  enum state: { draft: 0, published: 1, publish_wait: 2 }
 
   scope :past_published, -> { where('published_at <= ?', Time.current) }
 
@@ -93,20 +93,21 @@ class Article < ApplicationRecord
     @prev_article ||= Article.viewable.order(published_at: :desc).find_by('published_at < ?', published_at)
   end
 
-  #公開時間が過ぎているか?
+  # 公開時間が過ぎているか?
   def publishable?
     Time.current >= published_at
   end
 
-  #draft(下書き)であればreturn
-  #公開時間が過ぎていれば公開。過ぎていなければ公開待ちにする
+  # draft(下書き)であればreturn
+  # 公開時間が過ぎていれば公開。過ぎていなければ公開待ちにする
   def adjust_state
     return if draft?
-    self.state = if publishable?
-                    :published
-                  else
-                    :publish_wait
-                  end
+    
+    self.state =if publishable?
+                  :published
+                else
+                  :publish_wait
+                end
   end
 
   def message_on_published
@@ -116,5 +117,4 @@ class Article < ApplicationRecord
       '記事を公開待ちにしました'
     end
   end
-
 end
