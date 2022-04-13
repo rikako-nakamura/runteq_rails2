@@ -102,8 +102,8 @@ class Article < ApplicationRecord
   # 公開時間が過ぎていれば公開。過ぎていなければ公開待ちにする
   def adjust_state
     return if draft?
-    
-    self.state =if publishable?
+
+    self.state = if publishable?
                   :published
                 else
                   :publish_wait
