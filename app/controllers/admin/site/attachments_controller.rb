@@ -1,5 +1,4 @@
 class Admin::Site::AttachmentsController < ApplicationController
-
   def destroy
     image = ActiveStorage::Attachment.find(params[:id])
     image.purge
