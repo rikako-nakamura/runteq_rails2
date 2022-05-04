@@ -43,6 +43,7 @@ class Article < ApplicationRecord
   enum eyecatch_position: { center: 0, left: 1, right: 2 }
 
   scope :past_published, -> { where('published_at <= ?', Time.current) }
+  scope :published_at_yesterday, -> { where(published_at: 1.day.ago.all_day) }
 
   validates :slug, slug_format: true, uniqueness: true, length: { maximum: 255 }, allow_blank: true
   validates :title, presence: true, uniqueness: true, length: { maximum: 255 }
